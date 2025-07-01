@@ -1,0 +1,33 @@
+{
+  "name": "school-portfolio-landing",
+  "version": "1.0.0",
+  "description": "A school portfolio landing page with trimester schedules and team information presented in a comic theme.",
+  "main": "src/main.tsx",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "keywords": [
+    "school",
+    "portfolio",
+    "landing page",
+    "react",
+    "typescript",
+    "comic theme"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3"
+  },
+  "devDependencies": {
+    "typescript": "^4.1.2",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0"
+  },
+  "homepage": "https://yourusername.github.io/school-portfolio-landing"
+}
