@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IUTIRLA-Con X | Festival de Cómic y Cultura Pop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Oswald:wght@400;700&display=swap');
+        
+        .comic-font {
+            font-family: 'Bangers', cursive;
+        }
+        
+        .title-font {
+            font-family: 'Oswald', sans-serif;
+        }
+        
+        .comic-border {
+            border: 4px solid #ff2a00;
+            box-shadow: 8px 8px 0 rgba(255, 42, 0, 0.3);
+        }
+        
+        .comic-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .comic-button:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 rgba(255, 42, 0, 0.8);
+        }
+        
+        .comic-button:active {
+            transform: translate(0, 0);
+            box-shadow: 2px 2px 0 rgba(255, 42, 0, 0.8);
+        }
+        
+        .hero-pattern {
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255, 42, 0, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 42, 0, 0.1) 0%, transparent 20%),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.98), rgba(0, 0, 0, 0.9));
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255, 42, 0, 0.7), 0 0 20px rgba(255, 42, 0, 0.5);
+        }
+        
+        .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #ff2a00;
+            transition: width .3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 bg-black bg-opacity-90 backdrop-filter backdrop-blur-sm border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <a href="#" class="flex items-center">
+                            <i class="fas fa-bolt text-red-500 text-2xl mr-2"></i>
+                            <span class="comic-font text-2xl text-red-500">IUTIRLA-Con X</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#" class="nav-link px-3 py-2 text-sm font-medium text-white">INICIO</a>
+                        <a href="#" class="nav-link px-3 py-2 text-sm font-medium text-gray-300 hover:text-white">EVENTOS</a>
+                        <a href="#" class="nav-link px-3 py-2 text-sm font-medium text-gray-300 hover:text-white">INVITADOS</a>
+                        <a href="#" class="nav-link px-3 py-2 text-sm font-medium text-gray-300 hover:text-white">GALERÍA</a>
+                        <a href="#" class="nav-link px-3 py-2 text-sm font-medium text-gray-300 hover:text-white">CONTACTO</a>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <button class="comic-button px-6 py-2 bg-red-600 text-white font-bold rounded-none">
+                        ENTRADAS
+                    </button>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white focus:outline-none">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black border-t border-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="block px-3 py-2 text-base font-medium text-white">INICIO</a>
+                <a href="#" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white">EVENTOS</a>
+                <a href="#" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white">INVITADOS</a>
+                <a href="#" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white">GALERÍA</a>
+                <a href="#" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white">CONTACTO</a>
+                <button class="comic-button mt-2 px-6 py-2 w-full bg-red-600 text-white font-bold rounded-none">
+                    ENTRADAS
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="hero-pattern min-h-screen flex items-center justify-center pt-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center">
+                <div class="animate-float mb-8 flex justify-center">
+                    <img src="https://via.placeholder.com/800x400?text=IUTIRLA-Con+X+2025" alt="IUTIRLA-Con X" class="comic-border max-h-96">
+                </div>
+                <h1 class="comic-font text-5xl md:text-7xl lg:text-8xl mb-6 text-red-500 glow-text tracking-tight">
+                    IUTIRLA-Con X 2025
+                </h1>
+                <h2 class="title-font text-xl md:text-2xl lg:text-3xl mb-8 text-gray-200">
+                    EL FESTIVAL DE CÓMIC Y CULTURA POP MÁS GRANDE DEL PAÍS
+                </h2>
+                <p class="max-w-3xl mx-auto text-gray-300 mb-10 text-lg">
+                    Únete a nosotros en esta experiencia épica donde los superhéroes, el anime, los videojuegos y la cultura pop se encuentran. ¡Eventos exclusivos, invitados internacionales y miles de fans!
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button class="comic-button px-8 py-4 bg-red-600 text-white text-lg font-bold rounded-none">
+                        <i class="fas fa-ticket-alt mr-2"></i> COMPRA TUS ENTRADAS
+                    </button>
+                    <button class="comic-button px-8 py-4 bg-transparent border-2 border-red-600 text-white text-lg font-bold rounded-none">
+                        <i class="fas fa-calendar-alt mr-2"></i> PROGRAMA COMPLETO
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Gallery Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-black to-gray-900">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="comic-font text-4xl md:text-5xl lg:text-6xl text-red-500 mb-4">GALERÍA</h2>
+                <div class="w-24 h-1 bg-red-500 mx-auto mb-6"></div>
+                <p class="max-w-2xl mx-auto text-lg text-gray-300">
+                    Descubre los momentos épicos de ediciones anteriores y prepárate para vivir nuevas experiencias.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Card 1 -->
+                <div class="group comic-border bg-gray-900 hover:bg-gray-800 transition duration-300">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://via.placeholder.com/600x400?text=COSPLAY+CONTEST" alt="Cosplay Contest" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                        <div class="absolute bottom-0 left-0 p-4">
+                            <h3 class="comic-font text-2xl text-red-500">Trimestre 1</h3>
+                            <p class="text-gray-300">30 de Noviembre</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-300 mb-4">Participa en nuestro concurso de cosplay con premios de más de $5,000 en efectivo.</p>
+                        <button class="comic-button px-4 py-2 bg-red-600 text-white font-bold rounded-none text-sm">
+                            VER MÁS <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="group comic-border bg-gray-900 hover:bg-gray-800 transition duration-300">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://via.placeholder.com/600x400?text=ARTIST+ALLEY" alt="Artist Alley" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                        <div class="absolute bottom-0 left-0 p-4">
+                            <h3 class="comic-font text-2xl text-red-500">Trimestre 2</h3>
+                            <p class="text-gray-300">1-3 de Diciembre</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-300 mb-4">Descubre y apoya el trabajo de artistas independientes y creadores de cómics.</p>
+                        <button class="comic-button px-4 py-2 bg-red-600 text-white font-bold rounded-none text-sm">
+                            VER MÁS <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Card 3 -->
+                <div class="group comic-border bg-gray-900 hover:bg-gray-800 transition duration-300">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://via.placeholder.com/600x400?text=COMIC+EXPO" alt="Comic Expo" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                        <div class="absolute bottom-0 left-0 p-4">
+                            <h3 class="comic-font text-2xl text-red-500">Trimestre 3</h3>
+                            <p class="text-gray-300">Todos los días</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-300 mb-4">La mayor exposición de cómics, figuras y coleccionables de toda la región.</p>
+                        <button class="comic-button px-4 py-2 bg-red-600 text-white font-bold rounded-none text-sm">
+                            VER MÁS <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Card 4 -->
+                <div class="group comic-border bg-gray-900 hover:bg-gray-800 transition duration-300">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://via.placeholder.com/600x400?text=GAMING+ZONE" alt="Gaming Zone" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                        <div class="absolute bottom-0 left-0 p-4">
+                            <h3 class="comic-font text-2xl text-red-500">Trimestre 4</h3>
+                            <p class="text-gray-300">Todos los días</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-300 mb-4">Zona de gaming con los últimos lanzamientos, torneos y realidad virtual.</p>
+                        <button class="comic-button px-4 py-2 bg-red-600 text-white font-bold rounded-none text-sm">
+                            VER MÁS <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Card 5 -->
+                <div class="group comic-border bg-gray-900 hover:bg-gray-800 transition duration-300 md:col-span-2 lg:col-span-1">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://via.placeholder.com/600x400?text=INVITADOS+ESPECIALES" alt="Invitados Especiales" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                        <div class="absolute bottom-0 left-0 p-4">
+                            <h3 class="comic-font text-2xl text-red-500">Trimestre 5</h3>
+                            <p class="text-gray-300">Agenda Diaria</p>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-300 mb-4">Conoce a los artistas, creadores y celebridades de la industria del cómic y entretenimiento.</p>
+                        <button class="comic-button px-4 py-2 bg-red-600 text-white font-bold rounded-none text-sm">
+                            VER MÁS <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16">
+                <button class="comic-button px-8 py-3 bg-transparent border-2 border-red-600 text-white text-lg font-bold rounded-none">
+                    VER TODA LA GALERÍA <i class="fas fa-images ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="comic-font text-xl text-red-500 mb-4">IUTIRLA-Con X</h3>
+                    <p class="mb-4">El festival de cómic y cultura pop más grande del país.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-red-500"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-red-500"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-red-500"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-red-500"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="title-font text-lg text-white mb-4">EVENTO</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-red-500">Programación</a></li>
+                        <li><a href="#" class="hover:text-red-500">Invitados</a></li>
+                        <li><a href="#" class="hover:text-red-500">Talleres</a></li>
+                        <li><a href="#" class="hover:text-red-500">Concursos</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="title-font text-lg text-white mb-4">INFORMACIÓN</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-red-500">Entradas</a></li>
+                        <li><a href="#" class="hover:text-red-500">Cómo llegar</a></li>
+                        <li><a href="#" class="hover:text-red-500">Normas</a></li>
+                        <li><a href="#" class="hover:text-red-500">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="title-font text-lg text-white mb-4">CONTACTO</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center"><i class="fas fa-map-marker-alt mr-2 text-red-500"></i> Centro de Convenciones, Caracas</li>
+                        <li class="flex items-center"><i class="fas fa-envelope mr-2 text-red-500"></i> info@IUTIRLA-Conx.com</li>
+                        <li class="flex items-center"><i class="fas fa-phone-alt mr-2 text-red-500"></i> +58 212-555-1234</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-sm">© 2025 IUTIRLA-Con X. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+            const icon = this.querySelector('i');
+            if (document.getElementById('mobile-menu').classList.contains('hidden')) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+        });
+    </script>
+</body>
+</html>
