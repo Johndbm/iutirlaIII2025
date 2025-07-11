@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horario Académico - IUTIRLA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #0d47a1, #1976d2);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .header h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+        
+        .institute-info {
+            display: flex;
+            justify-content: space-between;
+            background-color: #e3f2fd;
+            padding: 15px 20px;
+            border-bottom: 1px solid #bbdefb;
+            flex-wrap: wrap;
+        }
+        
+        .institute-info div {
+            font-size: 0.9rem;
+            margin: 5px 0;
+        }
+        
+        .schedule-container {
+            padding: 20px;
+            overflow-x: auto;
+        }
+        
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .schedule-table th {
+            background: linear-gradient(90deg, #0d47a1, #1976d2);
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        .schedule-table td {
+            padding: 12px 8px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            transition: background-color 0.3s;
+            vertical-align: top;
+        }
+        
+        .schedule-table tr:nth-child(even) {
+            background-color: #f5f9ff;
+        }
+        
+        .schedule-table tr:hover td {
+            background-color: #e3f2fd;
+        }
+        
+        .time-cell {
+            background-color: #bbdefb;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .subject-cell {
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+        }
+        
+        .classroom {
+            display: block;
+            font-size: 0.85rem;
+            color: #0d47a1;
+            font-weight: 600;
+            margin-top: 5px;
+            background-color: rgba(187, 222, 251, 0.3);
+            border-radius: 3px;
+            padding: 2px 5px;
+        }
+        
+        .empty-cell {
+            background-color: #f5f5f5;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(90deg, #0d47a1, #1976d2);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn i {
+            font-size: 1.1rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #0d47a1;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        @media (max-width: 768px) {
+            .institute-info {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .schedule-table {
+                font-size: 0.85rem;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header h2 {
+                font-size: 1.3rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .schedule-table {
+                font-size: 0.75rem;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .header h2 {
+                font-size: 1.1rem;
+            }
+            
+            .btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .classroom {
+                font-size: 0.75rem;
+            }
+        }
+        
+        .highlight {
+            animation: highlight 1.5s ease;
+            background-color: #ffeb3b !important;
+            box-shadow: 0 0 10px rgba(255, 235, 59, 0.7);
+        }
+        
+        .today {
+            box-shadow: inset 0 0 0 2px #0d47a1;
+            background-color: #e3f2fd !important;
+        }
+        
+        .current-class {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .current-class::after {
+            content: "AHORA";
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ff5722;
+            color: white;
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 0 0 0 4px;
+            font-weight: bold;
+        }
+        
+        /* Estilos para impresión - ocultar controles */
+        @media print {
+            .controls, .legend {
+                display: none !important;
+            }
+            
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+                margin: 0;
+                max-width: 100%;
+            }
+            
+            .header, .institute-info, .schedule-container, .footer {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <!-- Título cambiado a Horario del Iutirla -->
+            <h1>Horario del IUTIRLA</h1>
+            <h2>Primer Semestre - Turno Diurno</h2>
+        </div>
+        
+        <div class="institute-info">
+            <div><strong>Institución:</strong> Instituto Universitario de Tecnología Industrial Rodolfo Loero Arismendi</div>
+            <div><strong>Extensión:</strong> Bello Monte</div>
+            <div><strong>Plan de Estudio:</strong> 05-07 Informática</div>
+            <div><strong>Semestre:</strong> 1</div>
+            <div><strong>Sección:</strong> A</div>
+        </div>
+        
+        <div class="schedule-container">
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Hora</th>
+                        <th>Lunes</th>
+                        <th>Martes</th>
+                        <th>Miércoles</th>
+                        <th>Jueves</th>
+                        <th>Viernes</th>
+                    </tr>
+                </thead>
+                <tbody id="schedule-body">
+                    <!-- Horario generado con JavaScript -->
+                </tbody>
+            </table>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #bbdefb;"></div>
+                    <span>Bloque horario</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #e3f2fd;"></div>
+                    <span>Clase en curso (hoy)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #ffeb3b;"></div>
+                    <span>Clase actual</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <!-- Botón modificado para resaltar la clase actual -->
+            <button class="btn" id="highlight-btn">
+                <i>🕒</i> Resaltar Clase Actual
+            </button>
+            <button class="btn" id="today-btn">
+                <i>📅</i> Ver Clases de Hoy
+            </button>
+            <button class="btn" id="print-btn">
+                <i>🖨️</i> Imprimir Horario
+            </button>
+        </div>
+        
+        <div class="footer">
+            <p>Horario Académico - Semestre 2025-03 | Sección A</p>
+        </div>
+    </div>
+
+    <script>
+        // Datos del horario con aulas
+        const subjects = {
+            "05A11-07": "Administración de Empresa",
+            "05A14-07": "Informática Básica",
+            "05A17-07": "Inglés Humental I",
+            "05A12-07": "Lenguaje y Comunicación",
+            "05A16-07": "Lógica",
+            "05A13-07": "Matemática I",
+            "05A15-07": "Sistemas de Información"
+        };
+        
+        const scheduleData = [
+            {
+                time: "07:30 A 08:15",
+                monday: { code: "05A15-07", classroom: "PIG 01" },
+                tuesday: { code: "05A14-07", classroom: "PIG 01" },
+                wednesday: { code: "05A13-07", classroom: "PIG 01" },
+                thursday: { code: "05A13-07", classroom: "PIG 01" },
+                friday: { code: "05A17-07", classroom: "PIG 01" }
+            },
+            {
+                time: "08:15 A 09:00",
+                monday: { code: "05A15-07", classroom: "PIG 01" },
+                tuesday: { code: "05A14-07", classroom: "PIG 01" },
+                wednesday: { code: "05A13-07", classroom: "PIG 01" },
+                thursday: { code: "05A13-07", classroom: "PIG 01" },
+                friday: { code: "05A17-07", classroom: "PIG 01" }
+            },
+            {
+                time: "09:05 A 09:50",
+                monday: { code: "05A11-07", classroom: "PIG 01" },
+                tuesday: { code: "05A17-07", classroom: "PIG 01" },
+                wednesday: { code: "05A14-07", classroom: "PIG 01" },
+                thursday: { code: "05A16-07", classroom: "PIG 01" },
+                friday: { code: "05A15-07", classroom: "PIG 01" }
+            },
+            {
+                time: "09:50 A 10:35",
+                monday: { code: "05A11-07", classroom: "PIG 01" },
+                tuesday: { code: "05A17-07", classroom: "PIG 01" },
+                wednesday: { code: "05A14-07", classroom: "PIG 01" },
+                thursday: { code: "05A16-07", classroom: "PIG 01" },
+                friday: { code: "05A15-07", classroom: "PIG 01" }
+            },
+            {
+                time: "10:40 A 11:25",
+                monday: { code: "05A11-07", classroom: "PIG 01" },
+                tuesday: "",
+                wednesday: { code: "05A16-07", classroom: "PIG 01" },
+                thursday: { code: "05A12-07", classroom: "PIG 01" },
+                friday: ""
+            },
+            {
+                time: "11:25 A 12:10",
+                monday: "",
+                tuesday: "",
+                wednesday: { code: "05A16-07", classroom: "PIG 01" },
+                thursday: { code: "05A12-07", classroom: "PIG 01" },
+                friday: ""
+            }
+        ];
+        
+        /**
+         * Genera la tabla del horario con aulas
+         * 
+         * Esta función crea dinámicamente las filas y celdas de la tabla
+         * basándose en los datos del horario. También añade las aulas donde
+         * se imparten las clases.
+         */
+        function generateSchedule() {
+            const scheduleBody = document.getElementById('schedule-body');
+            scheduleBody.innerHTML = '';
+            
+            scheduleData.forEach(block => {
+                const row = document.createElement('tr');
+                
+                // Celda de hora
+                const timeCell = document.createElement('td');
+                timeCell.textContent = block.time;
+                timeCell.className = 'time-cell';
+                row.appendChild(timeCell);
+                
+                // Celdas de días (lunes a viernes)
+                ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'].forEach(day => {
+                    const cell = document.createElement('td');
+                    
+                    if (block[day] && block[day] !== "") {
+                        const subjectName = subjects[block[day].code];
+                        const classroom = block[day].classroom;
+                        
+                        cell.innerHTML = `
+                            <div class="subject-name">${subjectName}</div>
+                            <div class="classroom">${classroom}</div>
+                        `;
+                        cell.className = 'subject-cell';
+                        cell.dataset.code = block[day].code;
+                    } else {
+                        cell.className = 'empty-cell';
+                    }
+                    
+                    row.appendChild(cell);
+                });
+                
+                scheduleBody.appendChild(row);
+            });
+        }
+        
+        /**
+         * Resalta la clase actual según la hora del sistema
+         * 
+         * Esta función:
+         * 1. Determina el día actual (lunes a viernes)
+         * 2. Calcula la hora actual en minutos
+         * 3. Busca el bloque horario que coincide con la hora actual
+         * 4. Resalta la celda correspondiente al día y hora actuales
+         * 5. Añade un indicador "AHORA" a la celda resaltada
+         */
+        function highlightCurrentClass() {
+            // Obtener día actual (0=domingo, 1=lunes, etc.)
+            const today = new Date().getDay();
+            
+            // Si es fin de semana, mostrar alerta
+            if (today === 0 || today === 6) {
+                alert("Hoy no hay clases según el horario");
+                return;
+            }
+            
+            // Obtener hora actual en minutos
+            const now = new Date();
+            const currentHours = now.getHours();
+            const currentMinutes = now.getMinutes();
+            const currentTime = currentHours * 60 + currentMinutes;
+            
+            // Buscar el bloque horario actual
+            let currentBlockIndex = -1;
+            scheduleData.forEach((block, index) => {
+                const timeParts = block.time.split(' ');
+                const startTime = timeParts[0].split(':');
+                const endTime = timeParts[2].split(':');
+                
+                const startMinutes = parseInt(startTime[0]) * 60 + parseInt(startTime[1]);
+                const endMinutes = parseInt(endTime[0]) * 60 + parseInt(endTime[1]);
+                
+                if (currentTime >= startMinutes && currentTime <= endMinutes) {
+                    currentBlockIndex = index;
+                }
+            });
+            
+            // Quitar cualquier resaltado previo
+            const allCells = document.querySelectorAll('.schedule-table td');
+            allCells.forEach(cell => {
+                cell.classList.remove('highlight', 'current-class');
+            });
+            
+            // Resaltar la clase actual si se encontró un bloque
+            if (currentBlockIndex !== -1) {
+                const rows = document.querySelectorAll('#schedule-body tr');
+                if (currentBlockIndex < rows.length) {
+                    const row = rows[currentBlockIndex];
+                    const classCell = row.children[today];
+                    
+                    if (classCell && !classCell.classList.contains('empty-cell')) {
+                        classCell.classList.add('highlight', 'current-class');
+                        // Desplazar la vista a la celda resaltada
+                        classCell.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        alert("No hay clase en este momento");
+                    }
+                }
+            } else {
+                alert("No hay clase en este momento (fuera del horario de clases)");
+            }
+        }
+        
+        /**
+         * Muestra las clases de hoy
+         * 
+         * Esta función:
+         * 1. Determina el día actual
+         * 2. Recorre todas las filas del horario
+         * 3. Resalta las celdas correspondientes al día actual
+         */
+        function showTodayClasses() {
+            const today = new Date().getDay();
+            
+            // Si es fin de semana, mostrar alerta
+            if (today === 0 || today === 6) {
+                alert("Hoy no hay clases según el horario");
+                return;
+            }
+            
+            // Eliminar resaltado actual
+            const allCells = document.querySelectorAll('.schedule-table td');
+            allCells.forEach(cell => {
+                cell.classList.remove('today', 'highlight', 'current-class');
+            });
+            
+            // Resaltar las clases de hoy
+            const timeCells = document.querySelectorAll('.time-cell');
+            timeCells.forEach((timeCell, index) => {
+                const row = timeCell.parentElement;
+                const classCell = row.children[today];
+                
+                if (classCell && !classCell.classList.contains('empty-cell')) {
+                    classCell.classList.add('today');
+                }
+            });
+        }
+        
+        /**
+         * Imprime el horario
+         * 
+         * Esta función activa la función de impresión del navegador
+         * y usa estilos CSS especiales para ocultar los controles
+         */
+        function printSchedule() {
+            window.print();
+        }
+        
+        // Configurar event listeners para los botones
+        document.getElementById('highlight-btn').addEventListener('click', highlightCurrentClass);
+        document.getElementById('today-btn').addEventListener('click', showTodayClasses);
+        document.getElementById('print-btn').addEventListener('click', printSchedule);
+        
+        // Inicializar la tabla al cargar la página
+        document.addEventListener('DOMContentLoaded', generateSchedule);
+    </script>
+</body>
+</html>
